@@ -70,6 +70,21 @@ describe('Recipes', function() {
   				res.body.should.deep.equal(updateRecipe);
   			}); //.then function (status 200)
   	}); //it(should update recipe on PUT)
+
+  	it('should delete recipe on DELETE', function() {
+  		return chai.request(app)
+  			.get('/recipes')
+  			.then(function(res) {
+  				return chai.request(app)
+  					.delete(`/recipes/${res.body[0].id}`);
+  			}) //.then function (.delete)
+
+  			.then(function(res) {
+  				res.should.have.status(204);
+  			}); //.then function (status 204)
+  	}); //it(should delete recipe on DELETE)
+
+  	
 }); //describe(recipes)
 
 
