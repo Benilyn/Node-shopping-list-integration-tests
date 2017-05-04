@@ -30,4 +30,22 @@ describe('Recipes', function() {
 			}); //res.body.forEach function
 		}); //.then function
 	}); //it(should list recipes on GET)
+
+	it('should add recipe on POST', function() {
+    const newRecipe = {
+    	name: 'quesadilla',
+    	ingredients: ['tortilla', 'cheese']
+    }; //const newRecipe
+    return chai.request(app)
+    	.post('/recipes')
+    	.send(newRecipe)
+    	.then(function(res) {
+    		res.should.have.status(201);
+        	res.should.be.json;
+        	res.body.should.be.a('object');
+        	res.body.should.include.keys('id', 'name', 'ingredients');
+        	res.body.id.should.not.be.null;
+        	res.body.should.deep.equal(Object.assign(newRecipe, {id: res.body.id}));
+      	}); //.then function
+  	}); //it(should add recipe on POST)
 }); //describe(recipes)
