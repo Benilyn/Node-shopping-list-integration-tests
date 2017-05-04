@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const should = chai.should();
@@ -84,6 +86,32 @@ describe('Recipes', function() {
   			}); //.then function (status 204)
   	}); //it(should delete recipe on DELETE)
 
+
+  	//EDGE CASE
+  	it('should give an error if there is no name', function() {
+	    const noNameRecipe = {
+	    	ingredients: ['tortilla', 'cheese']
+	    }; //const newRecipe
+	    return chai.request(app)
+	    	.post('/recipes')
+	    	.send(noNameRecipe)
+	    	.catch(function(res) {
+	    		res.should.have.status(400);	
+	      	}); //.then function
+	}); //it(should give an error if there is no name)
+
+  	it('should give an error if there is an empty name', function() {
+	    const emptyNameRecipe = {
+	    	name: '',
+	    	ingredients: ['tortilla', 'cheese']
+	    }; //const newRecipe
+	    return chai.request(app)
+	    	.post('/recipes')
+	    	.send(emptyNameRecipe)
+	    	.catch(function(res) {
+	    		res.should.have.status(400);	
+	      	}); //.then function
+	}); //it(should give an error if there is an empty name)
   	
 }); //describe(recipes)
 
