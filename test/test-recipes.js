@@ -32,20 +32,61 @@ describe('Recipes', function() {
 	}); //it(should list recipes on GET)
 
 	it('should add recipe on POST', function() {
-    const newRecipe = {
-    	name: 'quesadilla',
-    	ingredients: ['tortilla', 'cheese']
-    }; //const newRecipe
-    return chai.request(app)
-    	.post('/recipes')
-    	.send(newRecipe)
-    	.then(function(res) {
-    		res.should.have.status(201);
-        	res.should.be.json;
-        	res.body.should.be.a('object');
-        	res.body.should.include.keys('id', 'name', 'ingredients');
-        	res.body.id.should.not.be.null;
-        	res.body.should.deep.equal(Object.assign(newRecipe, {id: res.body.id}));
-      	}); //.then function
-  	}); //it(should add recipe on POST)
+	    const newRecipe = {
+	    	name: 'quesadilla',
+	    	ingredients: ['tortilla', 'cheese']
+	    }; //const newRecipe
+	    return chai.request(app)
+	    	.post('/recipes')
+	    	.send(newRecipe)
+	    	.then(function(res) {
+	    		res.should.have.status(201);
+	        	res.should.be.json;
+	        	res.body.should.be.a('object');
+	        	res.body.should.include.keys('id', 'name', 'ingredients');
+	        	res.body.id.should.not.be.null;
+	        	res.body.should.deep.equal(Object.assign(newRecipe, {id: res.body.id}));
+	      	}); //.then function
+	}); //it(should add recipe on POST)
+
+  	it('should update recipe on PUT', function() {
+  		const updateRecipe = {
+  			name: 'chocolate milk',
+  			ingredients: ['cocoa', 'milk', 'sugar']
+  		}; //const updateRecipe
+  		return chai.request(app)
+  			.get('/recipes')
+  			.then(function(res) {
+  				updateRecipe.id = res.body[0].id;
+  				return chai.request(app)
+          			.put(`/recipes/${updateRecipe.id}`)
+          			.send(updateRecipe);
+  			}) //.then function (updateRecipe)
+
+  			.then(function(res) {
+  				res.should.have.status(200);
+  				res.should.be.json;
+  				res.body.should.be.a('object');
+  				res.body.should.deep.equal(updateRecipe);
+  			}); //.then function (status 200)
+  	}); //it(should update recipe on PUT)
 }); //describe(recipes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
